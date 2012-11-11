@@ -4,11 +4,11 @@ function [ scaledSvmTestOutput ] = PlattScaledSVMHelper(X, y, Xtest)
     y01(y01<0) = 0;
 
     % Learn an SVM on the training set
-    [~,~,fun] = svm_kernel('X', X', 'Y', y', 'sigma', 10, 'lambda', 1000);
+    %[~,~,fun] = svm_kernel('X', X', 'Y', y', 'sigma', 1000, 'lambda', 1000);
     %[~,~,fun] = svm_kernel('X', X', 'Y', y', 'kernel', 'polynomial', 'degree', 3, 'lambda', 1);
     
-    %svmStruct = svmtrain(X', y', 'kernel_function', 'polynomial', 'polyorder', 3);
-    %fun = @(X) svmStruct.KernelFunction(X,svmStruct.SupportVectors) * svmStruct.Alpha + svmStruct.Bias;
+    svmStruct = svmtrain(X', y', 'kernel_function', 'polynomial', 'polyorder', 3);
+    fun = @(X) svmStruct.KernelFunction(X,svmStruct.SupportVectors) * svmStruct.Alpha + svmStruct.Bias;
     
     svmTrainOutput = [ ones(1,n) ; fun(X')' ];
     

@@ -22,8 +22,8 @@ function MLFinalProjectMain()
     display(accuracy)
     
     % Platt Scaled SVM
-    %accuracy = PlattScaledSVM(Xtrain, Ytrain, Xtest, Ytest);
-    %display(accuracy)
+    accuracy = PlattScaledSVM(Xtrain, Ytrain, Xtest, Ytest);
+    display(accuracy)
     
     % Adaboosted Decision Trees
     %accuracy = AdaboostedDecisionTrees(Xtrain, Ytrain, Xtest, Ytest);
