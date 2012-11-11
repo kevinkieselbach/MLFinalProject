@@ -18,7 +18,7 @@ function MLFinalProjectMain()
     %display(accuracy)
     
     % Clutering test
-    accuracy = Clustering(Xtrain, Ytrain, Xtest, Ytest);
+    [finalYPred, accuracy] = Clustering(Xtrain, Ytrain, Xtest, Ytest);
     display(accuracy)
     
     % Platt Scaled SVM

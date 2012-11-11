@@ -1,9 +1,17 @@
-function [ accuracy ] = Clustering( X, Y, XTest, YTest )
+function [ finalYPred, accuracy ] = Clustering( X, Y, XTest, YTest, varargin )
 %CLUSTERING Summary of this function goes here
 %   Detailed explanation goes here
 
+%If there are more than 4 arguments, use the first optional argument
+%as the weight vector and sample accordingly
+if nargin > 4
+    X = randsample(X',size(X,2),true,varargin(1)')';
+end
+
+finalYPred = zeros(1,size(Y,2));
+
 clusterAssignments = zeros(1,size(X,2));
-numCentroids = 50
+numCentroids = 150
 numIterations = 20
 doPrint = false;
 %change Y and YTest to represent single digit value rather than binary
@@ -64,7 +72,8 @@ for i = 1:numIterations
   if (testAccuracy > accuracy)
     % bestCentroids = centroids;
     % bestClusterAssignments = clusterAssignments;
-    accuracy = testAccuracy; 
+    accuracy = testAccuracy;
+    finalYPred = YPred;
   end
   
   if mod(i,2) == 0 && doPrint
@@ -73,6 +82,7 @@ for i = 1:numIterations
   end
   
 end
+
 
 
 
