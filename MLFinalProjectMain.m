@@ -17,12 +17,16 @@ function MLFinalProjectMain()
     %accuracy = KNN(Xtrain, Ytrain, Xtest, Ytest);
     %display(accuracy)
     
+    % Clutering test
+    accuracy = Clustering(Xtrain, Ytrain, Xtest, Ytest);
+    display(accuracy)
+    
     % Platt Scaled SVM
     %accuracy = PlattScaledSVM(Xtrain, Ytrain, Xtest, Ytest);
     %display(accuracy)
     
     % Adaboosted Decision Trees
-    accuracy = AdaboostedDecisionTrees(Xtrain, Ytrain, Xtest, Ytest);
-    display(accuracy)
+    %accuracy = AdaboostedDecisionTrees(Xtrain, Ytrain, Xtest, Ytest);
+    %display(accuracy)
 end
 

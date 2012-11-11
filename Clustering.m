@@ -1,14 +1,26 @@
 function [ accuracy ] = Clustering( X, Y, XTest, YTest )
 %CLUSTERING Summary of this function goes here
 %   Detailed explanation goes here
-centroids = zeros(size(X,1),10);
-clusterAssignments = zeros(1,size(X,2));
 
-bestCentroids = centroids;
-bestClusterAssignments = clusterAssignments;
+clusterAssignments = zeros(1,size(X,2));
+numCentroids = 50
+numIterations = 20
+doPrint = false;
+%change Y and YTest to represent single digit value rather than binary
+%class in 10 dim
+w = [ 1 2 3 4 5 6 7 8 9 10];
+Y(Y < 0) = 0;
+Y = w * Y;
+YTest(YTest < 0) = 0;
+YTest = w * YTest;
+
+%bestCentroids = centroids;
+%bestClusterAssignments = clusterAssignments;
+
 accuracy = 0;
 
-for i = 1:100
+for i = 1:numIterations
+  centroids = 2 * rand(size(X,1), numCentroids) - 1;
   while (true)
       %take distance between all centroids for each point
       [~, newClusterAssignments] = min(distance(centroids, X));
@@ -16,7 +28,7 @@ for i = 1:100
       %check to make sure cluster assignments have changed
       if sum(newClusterAssignments ~= clusterAssignments,2) > 0
         clusterAssignments = newClusterAssignments;
-        for j = 1:10
+        for j = 1:numCentroids
            %reassign position of centroids to means of the points under their
            %label
            centroids(:,j) = mean(X(:, clusterAssignments == j),2);
@@ -28,21 +40,36 @@ for i = 1:100
   end
     
   % label centroids: mode of labels of points assigned to cluster
-  centroidLabels = zeros(10, 1);
-  for j = 1:10
-     centroidLabels(j) = mode(Y(clusterAssignments == j));
-  end
+  centroidLabels = zeros(1,numCentroids);
+  for j = 1:numCentroids
+    centroidLabels(j) = mode(Y(clusterAssignments == j));
+  end  
   
   % compute test error by comparing label of yTest to nearest cluster
   [~, testClusterAssignments] = min(distance(centroids, XTest));
   YPred = centroidLabels(testClusterAssignments);
+
   correct = (YTest == YPred);
-  acc = sum(correct,2)/size(XTest,2);
+  testAccuracy = sum(correct,2)/size(XTest,2);
   
-  if (acc > accuracy)
+  % compute training error by comparing label of Y to nearest cluster
+  if doPrint
+    [~, testClusterAssignments] = min(distance(centroids, X));
+    YPred = centroidLabels(testClusterAssignments);
+
+    correct = (Y == YPred);
+    trainAccuracy = sum(correct,2)/size(X,2)
+  end
+  
+  if (testAccuracy > accuracy)
     % bestCentroids = centroids;
     % bestClusterAssignments = clusterAssignments;
-    accuracy = acc;
+    accuracy = testAccuracy; 
+  end
+  
+  if mod(i,2) == 0 && doPrint
+    testaccuracy = accuracy;
+    display(testaccuracy);  
   end
   
 end
