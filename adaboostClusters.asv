@@ -1,0 +1,27 @@
+function [ accuracy ] = adaboostClusters(X, Y, Xtest, Ytest)
+    w = [ 1 2 3 4 5 6 7 8 9 10 ];
+    YLabels = Y;
+    YLabels(YLabels < 0) = 0;
+    YLabels = w * YLabels;
+    
+    B = cell(0);
+    n = size(X,2);
+    weights = ones(1,n)/n;
+    
+    for i = 1:100
+        if rem(i, 10) == 0, disp(i), end
+        Cluster = Clustering(X,Y,weights);
+        Ypred = evalCluster(Cluster,X);
+        epsilon = sum(weights(YLabels ~= Ypred),2)/sum(weights,2);
+        if epsilon > 0.9, break; end
+        if epsilon == 0,
+            B{i} = struct('Cluster',Cluster,'weight',0.5);
+            break;
+        end
+        alpha = log((1-epsilon)/epsilon) + log(9);
+        B{i} = struct('Cluster',Cluster,'weight',alpha);
+        weights = weights .* exp(alpha*(Ypred ~= YLabels)) / sum(weights,2);
+    end
+    
+    correct = sum(YtestLabels == evalClusterBoost(B,Xtest));
+end
