@@ -14,13 +14,14 @@ function [feature,cut]=entropysplit(xTr,yTr,weights,varargin)
 %
 %
 %
-[d,n]=size(xTr);
-numSamples = d;
-
 if nargin > 3
-    numSamples = varargin{1};
+    
 end
-d = randsample(d,numSamples,false)';
+
+
+[d,n]=size(xTr);
+
+d =  
 
 if exist('weights')~=1,weights=ones(1,n)./n;end;
 weights=weights./sum(weights); % Weights need to sum to one
