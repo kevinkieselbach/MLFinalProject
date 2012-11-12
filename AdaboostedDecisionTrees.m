@@ -1,5 +1,5 @@
 function [ accuracy ] = AdaboostedDecisionTrees(X, Y, Xtest, Ytest)
-    maxiter = 150;
+    maxiter = 350;
     maxdepth = 5;
 
     testOutput = zeros(10,size(Xtest,2));
