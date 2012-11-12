@@ -1,4 +1,4 @@
-function T=id3tree(xTr,yTr,maxdepth,weights)
+function T=id3tree(xTr,yTr,maxdepth,weights,varargin)
 % function T=id3tree(xTr,yTr,maxdepth,weights)
 %
 % The maximum tree depth is defined by "maxdepth" (maxdepth=2 means one split). 
@@ -47,7 +47,11 @@ n=length(yTr);
      if depth==maxdepth || all(y==y(1)) || max(max(abs(diff(x'))))<eps*100,         
          Stack(sl)=[];
      else
-         [feature,cut]=entropysplit(x,y,w);
+         if nargin > 4
+            [feature,cut]=entropysplit(x,y,w,varargin{1});
+         else
+            [feature,cut]=entropysplit(x,y,w);
+         end
          T(2,id)=feature;
          T(3,id)=cut;
          T(4,id)=writer+1;

@@ -1,11 +1,9 @@
-function [ accuracy ] = AdaboostedDecisionTrees(X, Y, Xtest, Ytest)
-    maxiter = 150;
-    maxdepth = 2;
-
+function [ accuracy ] = baggedTrees(X, Y, Xtest, Ytest)
     testOutput = zeros(10,size(Xtest,2));
     for i = 1 : 10
-       B = adaboosttree(X, Y(i,:), maxiter, maxdepth);
+       B = randomForrest(X, Y(i,:));
        testOutput(i,:) = evalboost(B,Xtest);
+       display(i)
     end
     
     [~,Ypred] = max(testOutput);
