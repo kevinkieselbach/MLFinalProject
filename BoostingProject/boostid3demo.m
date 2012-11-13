@@ -61,8 +61,8 @@ pars.bias=1; % alwyas switch on bias;
 x=trainPoints;
 y=trainLabels;
 
-B=adaboosttree(x',y',pars.maxiter,pars.maxdepth);
-%B=logitboosttree(x',y',pars.maxiter,pars.maxdepth);
+%B=adaboosttree(x',y',pars.maxiter,pars.maxdepth);
+B=logitboosttree(x',y',pars.maxiter,pars.maxdepth);
 fun=@(x) evalboost(B,x')';
 visdecision(x(:,1:2),y,fun,'viscolor',pars.viscolor,'vismargin',pars.vismargin);
 

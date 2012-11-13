@@ -27,7 +27,11 @@ weights=weights./sum(weights); % Weights need to sum to one
 [revmap,b,yTr]=unique(yTr);	
 Hbest=Inf;
 for i=d
+        % 2 classes - > 2 columsn
+        % each column is 1 example
         [sx,ii]=sort(xTr(i,:));
+        %get ith feature and sort by value of feature
+        % ii has indexes from unsorted to sorted (map)
 		y=yTr(ii);
         ws=weights(ii);
  	  	Y=sparse(1:n,y,ws);
@@ -49,8 +53,8 @@ for i=d
 		Q2=-P2.*log2(P2);
         Q2(isnan(Q2))=0;
         Q2=S1ud*Q2;
-		Q2=Q2(end:-1:1,:);
-
+		Q2=Q2(end:-1:1,:);       
+        
 		idif=find(abs(diff(sx))>eps*100); % find places where the features differ
 		H=sum(Q(idif,:)+Q2(idif+1,:),2);
 		if isempty(H),continue;end;

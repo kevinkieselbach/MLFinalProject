@@ -1,6 +1,6 @@
 function [ accuracy ] = KNN(X, Y, Xtest, Ytest)
-    k = 3; % k as in k nearest neighbors
-    pcaDim = 20;
+    k = 1; % k as in k nearest neighbors
+    pcaDim = 100;
     
     [ U , ~, ~ ] = svd(X);
     U = U(:, 1:pcaDim);
